@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:subunit/UI/animation.dart';
+import 'package:subunit/UI/decoration.dart';
 
 import 'package:subunit/home.dart';
 
@@ -13,7 +16,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
+  //final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   // TextEditingController emailInputController;
 
   // TextEditingController _phoneNumberController = TextEditingController();
@@ -76,6 +79,7 @@ class _LoginPageState extends State<LoginPage> {
     }).catchError((e) {
       print(e);
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -107,99 +111,230 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 80,
+      body: Container(
+        constraints: BoxConstraints.expand(),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              'assets/images/login_bg.jpg',
             ),
-            Container(
-              height: 48,
-              width: w - 40,
-              padding: EdgeInsets.symmetric(vertical: 13.0, horizontal: 20.0),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.grey[100],
-                  border: Border.all(color: Colors.grey[400])),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  hint: dropdownValue == null
-                      ? Text('Select Unit')
-                      : Text(
-                          dropdownValue,
-                          style: TextStyle(color: Colors.blue),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Stack(
+          children: <Widget>[
+            WavyHeaderImage(
+              color1: Color(0xffFF7979),
+              color2: Color(0xffFF7979),
+              color3: Color(0xffFF7979),
+            ),
+            RotatedBox(
+              quarterTurns: 2,
+              child: AnimatedWave(
+                height: 160,
+                speed: 0.8,
+              ),
+            ),
+            RotatedBox(
+              quarterTurns: 2,
+              child: AnimatedWave(
+                height: 100,
+                speed: 0.8,
+                offset: pi,
+              ),
+            ),
+            RotatedBox(
+              quarterTurns: 2,
+              child: AnimatedWave(
+                height: 200,
+                speed: 0.8,
+                offset: pi / 2,
+              ),
+            ),
+            Positioned(
+              left: ((w * 0.15) / 2),
+              top: h * 0.31,
+              // left: -10,
+              // top: 200,
+              child: FadeAnimation(
+                1.0,
+                Container(
+                  height: h / 2,
+                  width: w * 0.85,
+                  decoration: new BoxDecoration(
+                    boxShadow: [
+                      //background color of box
+                      BoxShadow(
+                        color: Colors.blueGrey[200],
+                        blurRadius: 15.0, // soften the shadow
+                        spreadRadius: 5.0, //extend the shadow
+                        offset: Offset(
+                          0.0, // Move to right 10  horizontally
+                          10.0, // Move to bottom 10 Vertically
                         ),
-                  value: dropdownValue,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      dropdownValue = newValue;
-                    });
-                  },
-                  items: <String>[
-                    'SubUnit1',
-                    'SubUnit2',
-                    'SubUnit3',
-                    'SubUnit4',
-                    'SubUnit5',
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+                      )
+                    ],
+                    color: Colors.white,
+                    borderRadius: new BorderRadius.only(
+                      bottomRight: const Radius.circular(40.0),
+                      topRight: const Radius.circular(40.0),
+                      bottomLeft: const Radius.circular(40.0),
+                      topLeft: const Radius.circular(40.0),
+                    ),
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 0,
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 55,
+                        ),
+                        Text(
+                          "Login",
+                          style: TextStyle(
+                              //fontFamily: 'PlayfairDisplay',
+                              // color: Color(0xff57c89f),
+                              color: Colors.black54,
+                              fontSize: 34,
+                              fontWeight: FontWeight.w900),
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Container(
+                          height: 48,
+                          width: w * 0.7,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 13.0, horizontal: 20.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Colors.grey[100],
+                              border: Border.all(color: Colors.grey[400])),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              //dropdownColor: Colors.black,
+                              hint: dropdownValue == null
+                                  ? Text('Select Unit')
+                                  : Text(
+                                      dropdownValue,
+                                      style: TextStyle(color: Colors.blue),
+                                    ),
+                              value: dropdownValue,
+                              onChanged: (String newValue) {
+                                setState(() {
+                                  dropdownValue = newValue;
+                                });
+                              },
+                              items: <String>[
+                                'SubUnit1',
+                                'SubUnit2',
+                                'SubUnit3',
+                                'SubUnit4',
+                                'SubUnit5',
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          width: w * 0.7,
+                          child: TextFormField(
+                            // key: widget.key,
+                            maxLength: 6,
+                            keyboardType: TextInputType.number,
+                            maxLines: 1,
+                            controller: _otpController,
+                            // validator: widget.validator,
+                            textAlign: TextAlign.center,
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
+                                borderSide: BorderSide(color: Colors.grey[400]),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
+                                borderSide: BorderSide(color: Colors.grey[400]),
+                              ),
+                              filled: true,
+                              fillColor: Colors.grey[100],
+                              labelText: 'Passcode',
+                              contentPadding: new EdgeInsets.symmetric(
+                                  vertical: 13.0, horizontal: 20.0),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 45,
+                          width: w / 3,
+                          child: FlatButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(23.0),
+                                  side: BorderSide(color: Colors.white)),
+                              //color: Color(0xff57c89f),
+                              color: Colors.black87,
+                              textColor: Colors.white,
+                              padding: EdgeInsets.all(8.0),
+                              child: Text('Login'),
+                              onPressed: () {
+                                switch (dropdownValue) {
+                                  case "SubUnit1":
+                                    _phone = '1515151515';
+                                    break;
+
+                                  case "SubUnit2":
+                                    _phone = '1616161616';
+                                    break;
+
+                                  case "SubUnit3":
+                                    _phone = '1717171717';
+                                    break;
+
+                                  case "SubUnit4":
+                                    {
+                                      _phone = '1818181818';
+                                    }
+                                    break;
+
+                                  case 'SubUnit5':
+                                    _phone = '1919191919';
+                                    break;
+
+                                  default:
+                                    {
+                                      print("Invalid choice");
+                                    }
+                                    break;
+                                }
+
+                                print(_phone);
+                                registerUser(_phone, context);
+                                if (_firebaseUser != null) {
+                                  _otpController = TextEditingController();
+                                }
+                              }),
+                        ),
+                        SizedBox(
+                          height: 120,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
-            SizedBox(
-              height: 40,
-            ),
-            TextFormField(
-              controller: _otpController,
-              decoration: InputDecoration(labelText: 'passcode'),
-              maxLength: 6,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            RaisedButton(
-                child: Text('Login'),
-                onPressed: () {
-                  switch (dropdownValue) {
-                    case "SubUnit1":
-                      _phone = '1515151515';
-                      break;
-
-                    case "SubUnit2":
-                      _phone = '1616161616';
-                      break;
-
-                    case "SubUnit3":
-                      _phone = '1717171717';
-                      break;
-
-                    case "SubUnit4":
-                      {
-                        _phone = '1818181818';
-                      }
-                      break;
-
-                    case 'SubUnit5':
-                      _phone = '1919191919';
-                      break;
-
-                    default:
-                      {
-                        print("Invalid choice");
-                      }
-                      break;
-                  }
-
-                  print(_phone);
-                  registerUser(_phone, context);
-                  if (_firebaseUser != null) {
-                    _otpController = TextEditingController();
-                  }
-                })
           ],
         ),
       ),
