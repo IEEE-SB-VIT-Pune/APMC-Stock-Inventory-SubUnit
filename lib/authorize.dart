@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:subunit/UI/animation.dart';
 import 'package:subunit/UI/decoration.dart';
 
@@ -24,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController pwdInputController;
   FirebaseUser _firebaseUser;
   String dropdownValue;
+  String selectedUnit;
 
   String _phone;
 
@@ -44,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => HomePage(),
+                builder: (context) => HomePage(selectedUnit),
               ),
             );
           }).catchError((e) => print(e));
@@ -75,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
       // Navigator.of(context).pop();
 
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+          context, MaterialPageRoute(builder: (context) => HomePage(selectedUnit)));
     }).catchError((e) {
       print(e);
       showDialog(
@@ -101,6 +104,11 @@ class _LoginPageState extends State<LoginPage> {
     _otpController = new TextEditingController();
 
     super.initState();
+  }
+
+  Future<Void> _saveCurrentSubUnit(int unitNumber) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('CurrentUnit', 's$unitNumber');
   }
 
   @override
@@ -235,6 +243,9 @@ class _LoginPageState extends State<LoginPage> {
                                 'SubUnit3',
                                 'SubUnit4',
                                 'SubUnit5',
+                                'SubUnit6',
+                                'SubUnit7',
+                                'SunUnit8',
                               ].map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
@@ -282,7 +293,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: FlatButton(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(23.0),
-                                  side: BorderSide(color: Colors.white)),
+                                  side: BorderSide(color: Colors.white),),
                               //color: Color(0xff57c89f),
                               color: Colors.black87,
                               textColor: Colors.white,
@@ -292,26 +303,69 @@ class _LoginPageState extends State<LoginPage> {
                                 switch (dropdownValue) {
                                   case "SubUnit1":
                                     _phone = '1515151515';
+                                    setState(() {
+                                      selectedUnit = 's1';
+                                    });
+                                    _saveCurrentSubUnit(1);
                                     break;
 
                                   case "SubUnit2":
                                     _phone = '1616161616';
+                                    setState(() {
+                                      selectedUnit = 's2';
+                                    });
+                                    _saveCurrentSubUnit(2);
                                     break;
 
                                   case "SubUnit3":
                                     _phone = '1717171717';
+                                    setState(() {
+                                      selectedUnit = 's3';
+                                      _saveCurrentSubUnit(3);
+                                    });
                                     break;
 
                                   case "SubUnit4":
                                     {
                                       _phone = '1818181818';
+                                      setState(() {
+                                      selectedUnit = 's4';
+                                    });
+                                    _saveCurrentSubUnit(4);
                                     }
                                     break;
 
                                   case 'SubUnit5':
                                     _phone = '1919191919';
+                                    setState(() {
+                                      selectedUnit = 's5';
+                                    });
+                                    _saveCurrentSubUnit(5);
                                     break;
 
+                                  case 'SubUnit6':
+                                    _phone = '1414141414';
+                                    setState(() {
+                                      selectedUnit = 's6';
+                                    });
+                                    _saveCurrentSubUnit(6);
+                                    break;
+
+                                    case 'SubUnit7':
+                                    _phone = '1313131313';
+                                    setState(() {
+                                      selectedUnit = 's7';
+                                    });
+                                    _saveCurrentSubUnit(7);
+                                    break;
+
+                                    case 'SubUnit8':
+                                    _phone = '1212121212';
+                                    setState(() {
+                                      selectedUnit = 's8';
+                                    });
+                                    _saveCurrentSubUnit(8);
+                                    break;
                                   default:
                                     {
                                       print("Invalid choice");

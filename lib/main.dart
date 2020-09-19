@@ -3,20 +3,24 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:subunit/UI/decoration.dart';
 import 'package:subunit/authorize.dart';
 import 'package:subunit/home.dart';
 
 void main() => runApp(MyApp());
 
+
 class MyApp extends StatelessWidget {
+
+ 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'SubUnit Inventory',
       theme: ThemeData(
-        primarySwatch: Colors.black87,
+        primarySwatch: Colors.red,
       ),
       home: Splash(),
       debugShowCheckedModeBanner: false,
@@ -31,6 +35,7 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> {
   FirebaseUser currentUser;
+  String unitNumber = '';
 
   @override
   void initState() {
@@ -42,17 +47,32 @@ class _SplashState extends State<Splash> {
         .catchError((err) => print(err));
 
     print(currentUser);
+
+    _getUnitInfoFromSharedPref().then((unit) {
+      setState(() {
+        unitNumber = unit;
+      });
+    });
+    print('Unit - ' + unitNumber);
+    
     super.initState();
+  }
+
+  Future<String> _getUnitInfoFromSharedPref() async {
+    final prefs = await SharedPreferences.getInstance();
+    String unitNumber = prefs.getString('CurrentUnit');
+    return unitNumber;
   }
 
   @override
   Widget build(BuildContext context) {
+    
     Timer(
       Duration(seconds: 2),
       () => Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (BuildContext context) =>
-              currentUser == null ? LoginPage() : HomePage(),
+              currentUser == null ? LoginPage() : HomePage(unitNumber),
         ),
       ),
     );
@@ -60,7 +80,7 @@ class _SplashState extends State<Splash> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          backgroundColor: Color(0xffffffff),
+          backgroundColor: Color(0xFFFFFFFF),
           body: Container(
             height: MediaQuery.of(context).size.height,
             child: Stack(
