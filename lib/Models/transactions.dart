@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Transactions{
+class Transactions {
   String customerName, phoneNumber, paymentMode;
   var time, items;
 

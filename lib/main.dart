@@ -54,7 +54,7 @@ class _SplashState extends State<Splash> {
       });
     });
     print('Unit - ' + unitNumber);
-    
+
     super.initState();
   }
 
@@ -66,7 +66,6 @@ class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
-    
     Timer(
       Duration(seconds: 2),
       () => Navigator.of(context).pushReplacement(

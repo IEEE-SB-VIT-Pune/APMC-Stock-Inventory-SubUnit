@@ -77,8 +77,8 @@ class _LoginPageState extends State<LoginPage> {
 
       // Navigator.of(context).pop();
 
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePage(selectedUnit)));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => HomePage(selectedUnit)));
     }).catchError((e) {
       print(e);
       showDialog(
@@ -292,8 +292,9 @@ class _LoginPageState extends State<LoginPage> {
                           width: w / 3,
                           child: FlatButton(
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(23.0),
-                                  side: BorderSide(color: Colors.white),),
+                                borderRadius: BorderRadius.circular(23.0),
+                                side: BorderSide(color: Colors.white),
+                              ),
                               //color: Color(0xff57c89f),
                               color: Colors.black87,
                               textColor: Colors.white,
@@ -321,17 +322,17 @@ class _LoginPageState extends State<LoginPage> {
                                     _phone = '1717171717';
                                     setState(() {
                                       selectedUnit = 's3';
-                                      _saveCurrentSubUnit(3);
                                     });
+                                    _saveCurrentSubUnit(3);
                                     break;
 
                                   case "SubUnit4":
                                     {
                                       _phone = '1818181818';
                                       setState(() {
-                                      selectedUnit = 's4';
-                                    });
-                                    _saveCurrentSubUnit(4);
+                                        selectedUnit = 's4';
+                                      });
+                                      _saveCurrentSubUnit(4);
                                     }
                                     break;
 
@@ -351,7 +352,7 @@ class _LoginPageState extends State<LoginPage> {
                                     _saveCurrentSubUnit(6);
                                     break;
 
-                                    case 'SubUnit7':
+                                  case 'SubUnit7':
                                     _phone = '1313131313';
                                     setState(() {
                                       selectedUnit = 's7';
@@ -359,7 +360,7 @@ class _LoginPageState extends State<LoginPage> {
                                     _saveCurrentSubUnit(7);
                                     break;
 
-                                    case 'SubUnit8':
+                                  case 'SubUnit8':
                                     _phone = '1212121212';
                                     setState(() {
                                       selectedUnit = 's8';

@@ -29,10 +29,7 @@ class _TransactionEntryState extends State<TransactionEntry> {
 
   @override
   Widget build(BuildContext context) {
-    ['0', '1', '2', '3'].forEach((str) {
-      var textEditingController = new TextEditingController(text: str);
-      _productController.putIfAbsent(str, () => textEditingController);
-    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Entry'),
