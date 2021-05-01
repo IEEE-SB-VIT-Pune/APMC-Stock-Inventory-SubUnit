@@ -48,6 +48,9 @@ Features included:
   </tr>  
 </table>
 
+Database Schemea: <br>
+<img src = "https://github.com/IEEE-SB-VIT-Pune/APMC-Stock-Inventory-SubUnit/blob/master/assets/images/Database_schema.png" alt="Flutter" width="630" height="420"> 
+
 ### Dependencies
 <ul>
  <li> cloud_firestore:&nbsp &nbsp &nbsp &nbsp ^0.12.3
